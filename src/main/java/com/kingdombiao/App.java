@@ -2,12 +2,16 @@ package com.kingdombiao;
 
 import com.kingdombiao.bean.*;
 import com.kingdombiao.config.Config;
+import com.kingdombiao.config.ConfigAutoInjectPriority;
+import com.kingdombiao.dao.DemoDao;
 import com.kingdombiao.factoryBean.BiaoFactoryBean;
+import com.kingdombiao.service.DemoService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.Environment;
 
 import java.util.Map;
 
@@ -19,11 +23,14 @@ public class App
 {
     public static void main( String[] args )
     {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
+       /* ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
         Object person = applicationContext.getBean("person");
+        System.out.println(person);*/
 
+        ApplicationContext app = new AnnotationConfigApplicationContext(Config.class);
 
-        System.out.println(person);
+        Object person1 = app.getBean("person");
+        System.out.println(person1);
     }
 
     @Test
@@ -140,5 +147,53 @@ public class App
         BiaoFactoryBean biaoFactoryBean = (BiaoFactoryBean) applicationContext.getBean("&biaoFactoryBean");
         System.out.println("&biaoFactoryBean="+biaoFactoryBean);
     }
+
+    @Test
+    public void testBeanLifeCycle(){
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
+
+        System.out.println("******IOC容器初始化完成*******");
+
+        //applicationContext.getBean(Bike.class);
+
+        //applicationContext.getBean(Train.class);
+
+        //((AnnotationConfigApplicationContext) applicationContext).close();
+    }
+
+    @Test
+    public void testConfigProperties(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
+
+
+        Bird bean = applicationContext.getBean(Bird.class);
+        System.out.println(bean);
+
+        //properties 会加载到环境变量中，可以直接从环境变量中去bird.color的值
+        Environment environment = applicationContext.getEnvironment();
+        String property = environment.getProperty("bird.color");
+        System.out.println("environment--->"+property);
+
+        ((AnnotationConfigApplicationContext) applicationContext).close();
+    }
+
+
+    @Test
+    public void testConfigAutoInjectPriority(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigAutoInjectPriority.class);
+
+
+        DemoService demoService = applicationContext.getBean(DemoService.class);
+        demoService.printDemoDao();
+
+        DemoDao demoDao = (DemoDao)applicationContext.getBean(DemoDao.class);
+
+        System.out.println(demoDao);
+
+        ((AnnotationConfigApplicationContext) applicationContext).close();
+    }
+
+
+
 
 }

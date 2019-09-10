@@ -1,7 +1,11 @@
 package com.kingdombiao.bean;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Person {
+    @Value("王八蛋")
     private String name;
+    @Value("#{20-18}")
     private Integer age;
 
     public Person() {
