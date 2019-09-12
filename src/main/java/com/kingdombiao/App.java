@@ -1,7 +1,9 @@
 package com.kingdombiao;
 
+import com.kingdombiao.aop.Calculator;
 import com.kingdombiao.bean.*;
 import com.kingdombiao.config.Config;
+import com.kingdombiao.config.ConfigAop;
 import com.kingdombiao.config.ConfigAutoInjectPriority;
 import com.kingdombiao.dao.DemoDao;
 import com.kingdombiao.factoryBean.BiaoFactoryBean;
@@ -193,6 +195,18 @@ public class App
         ((AnnotationConfigApplicationContext) applicationContext).close();
     }
 
+
+    @Test
+    public void testConfigAop(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigAop.class);
+
+
+        Calculator calculator = applicationContext.getBean(Calculator.class);
+
+        System.out.println(calculator.div(1,2));
+
+        ((AnnotationConfigApplicationContext) applicationContext).close();
+    }
 
 
 
