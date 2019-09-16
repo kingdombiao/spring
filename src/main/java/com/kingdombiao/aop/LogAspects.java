@@ -41,11 +41,11 @@ public class LogAspects {
     }
 
 
-    @Around("pointCut()")
+   /* @Around("pointCut()")
     public Object aroud(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         System.out.println("@Around:执行目标方法之前.......");
         Object result = proceedingJoinPoint.proceed();
         System.out.println("@Around:执行目标方法之后.......结果{"+result+"}");
         return result;
-    }
+    }*/
 }

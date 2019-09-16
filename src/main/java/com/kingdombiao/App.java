@@ -5,9 +5,11 @@ import com.kingdombiao.bean.*;
 import com.kingdombiao.config.Config;
 import com.kingdombiao.config.ConfigAop;
 import com.kingdombiao.config.ConfigAutoInjectPriority;
+import com.kingdombiao.config.ConfigTransaction;
 import com.kingdombiao.dao.DemoDao;
 import com.kingdombiao.factoryBean.BiaoFactoryBean;
 import com.kingdombiao.service.DemoService;
+import com.kingdombiao.service.OrderService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -203,7 +205,20 @@ public class App
 
         Calculator calculator = applicationContext.getBean(Calculator.class);
 
-        System.out.println(calculator.div(1,2));
+        System.out.println(calculator.div(1,0));
+
+        ((AnnotationConfigApplicationContext) applicationContext).close();
+    }
+
+
+    @Test
+    public void testConfigTransaction(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigTransaction.class);
+
+
+        OrderService orderService = applicationContext.getBean(OrderService.class);
+
+        System.out.println(orderService.addOrder());
 
         ((AnnotationConfigApplicationContext) applicationContext).close();
     }
