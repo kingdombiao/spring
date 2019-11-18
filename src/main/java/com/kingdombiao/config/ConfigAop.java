@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 描述:
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Configuration
 @EnableAspectJAutoProxy
+@EnableTransactionManagement
 public class ConfigAop {
 
     @Bean

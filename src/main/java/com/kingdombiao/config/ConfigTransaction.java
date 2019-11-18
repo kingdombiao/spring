@@ -17,16 +17,16 @@ import java.beans.PropertyVetoException;
 @Configuration
 @ComponentScan(value = {"com.kingdombiao.dao","com.kingdombiao.service"})
 @EnableTransactionManagement
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(exposeProxy = true)
 public class ConfigTransaction {
 
     @Bean
     public DataSource dataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setUser("root");
-        dataSource.setPassword("root");
+        dataSource.setUser("unovo");
+        dataSource.setPassword("lianyu@2018");
         dataSource.setDriverClass("com.mysql.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setJdbcUrl("jdbc:mysql://101.37.71.95:3306/test");
         return dataSource;
     }
 

@@ -13,8 +13,6 @@ import com.kingdombiao.service.OrderService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.Environment;
 
 import java.util.Map;
@@ -205,7 +203,7 @@ public class App
 
         Calculator calculator = applicationContext.getBean(Calculator.class);
 
-        System.out.println(calculator.div(1,0));
+        System.out.println(calculator.div(1,1));
 
         ((AnnotationConfigApplicationContext) applicationContext).close();
     }
@@ -218,11 +216,10 @@ public class App
 
         OrderService orderService = applicationContext.getBean(OrderService.class);
 
-        System.out.println(orderService.addOrder());
+        System.out.println(orderService.select(2));
+
 
         ((AnnotationConfigApplicationContext) applicationContext).close();
+
     }
-
-
-
 }
