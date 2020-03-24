@@ -4,9 +4,32 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="person" class="com.kingdombiao.bean.Person" >
+   <!-- <bean id="person" class="com.kingdombiao.bean.Person" >
         <property name="name" value="kingdombiao"/>
         <property name="age" value="18"/>
+    </bean>-->
+
+    <!--setter方式循环依赖 单例，默认方式-->
+    <bean id="clzA" class="com.kingdombiao.circularReference.ClzA">
+        <property name="clzB" ref="clzB"/>
+    </bean>
+    <bean id="clzB" class="com.kingdombiao.circularReference.ClzB">
+        <property name="clzA" ref="clzA"/>
     </bean>
 
+    <!--构造器参数循环依赖-->
+   <!-- <bean id="clzA" class="com.kingdombiao.circularReference.ClzA">
+       <constructor-arg index="0" ref="clzB"></constructor-arg>
+   </bean>
+    <bean id="clzB" class="com.kingdombiao.circularReference.ClzB">
+       <constructor-arg index="0" ref="clzA"></constructor-arg>
+    </bean>-->
+
+   <!-- setter方式原型 循环依赖，prototype-->
+    <!--<bean id="clzA" class="com.kingdombiao.circularReference.ClzA" scope="prototype">
+        <property name="clzB" ref="clzB"/>
+    </bean>
+    <bean id="clzB" class="com.kingdombiao.circularReference.ClzB" scope="prototype">
+        <property name="clzA" ref="clzA"/>
+    </bean>-->
 </beans>

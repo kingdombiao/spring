@@ -1,0 +1,5 @@
+一级缓存：singletonFactories  -创建实例之后放入（bean name --> ObjectFactory）
+                |
+二级缓存：earlySingletonObjects 有循环依赖的bean才会放入（bean name --> bean instance）
+                |
+三级级缓存：singletonObjects  初始化之后放入（bean name --> bean instance）

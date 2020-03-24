@@ -2,10 +2,9 @@ package com.kingdombiao;
 
 import com.kingdombiao.aop.Calculator;
 import com.kingdombiao.bean.*;
-import com.kingdombiao.config.Config;
-import com.kingdombiao.config.ConfigAop;
-import com.kingdombiao.config.ConfigAutoInjectPriority;
-import com.kingdombiao.config.ConfigTransaction;
+import com.kingdombiao.circularReference.BeanB;
+import com.kingdombiao.circularReference.ClzA;
+import com.kingdombiao.config.*;
 import com.kingdombiao.dao.DemoDao;
 import com.kingdombiao.factoryBean.BiaoFactoryBean;
 import com.kingdombiao.service.DemoService;
@@ -13,18 +12,16 @@ import com.kingdombiao.service.OrderService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.Environment;
 
 import java.util.Map;
 
 /**
  * Hello world!
- *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+    public static void main(String[] args) {
        /* ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
         Object person = applicationContext.getBean("person");
         System.out.println(person);*/
@@ -36,9 +33,9 @@ public class App
     }
 
     @Test
-    public void testConfigPerson(){
+    public void testConfigPerson() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
-       // Object person = applicationContext.getBean("person");
+        // Object person = applicationContext.getBean("person");
         String[] beanNamesForType = applicationContext.getBeanNamesForType(Person.class);
         for (String name : beanNamesForType) {
             System.out.println(name);
@@ -46,7 +43,7 @@ public class App
     }
 
     @Test
-    public void testComponentScan(){
+    public void testComponentScan() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
@@ -56,7 +53,7 @@ public class App
     }
 
     @Test
-    public void testScope(){
+    public void testScope() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
@@ -66,11 +63,11 @@ public class App
 
         Object person1 = applicationContext.getBean("person");
         Object person2 = applicationContext.getBean("person");
-        System.out.println(person1==person2);
+        System.out.println(person1 == person2);
     }
 
     @Test
-    public void testLazy(){
+    public void testLazy() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         System.out.println("******IOC容器初始化完成*******");
@@ -82,11 +79,11 @@ public class App
 
         Object person1 = applicationContext.getBean("person");
         Object person2 = applicationContext.getBean("person");
-        System.out.println(person1==person2);
+        System.out.println(person1 == person2);
     }
 
     @Test
-    public void testConditon(){
+    public void testConditon() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         System.out.println("******IOC容器初始化完成*******");
@@ -101,7 +98,7 @@ public class App
     }
 
     @Test
-    public void testImport(){
+    public void testImport() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         System.out.println("******IOC容器初始化完成*******");
@@ -111,7 +108,7 @@ public class App
     }
 
     @Test
-    public void testImportSelector(){
+    public void testImportSelector() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         System.out.println("******IOC容器初始化完成*******");
@@ -121,9 +118,8 @@ public class App
     }
 
 
-
     @Test
-    public void testImportBeanDefinitionRegistrar(){
+    public void testImportBeanDefinitionRegistrar() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         System.out.println("******IOC容器初始化完成*******");
@@ -147,11 +143,11 @@ public class App
         }
 
         BiaoFactoryBean biaoFactoryBean = (BiaoFactoryBean) applicationContext.getBean("&biaoFactoryBean");
-        System.out.println("&biaoFactoryBean="+biaoFactoryBean);
+        System.out.println("&biaoFactoryBean=" + biaoFactoryBean);
     }
 
     @Test
-    public void testBeanLifeCycle(){
+    public void testBeanLifeCycle() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
         System.out.println("******IOC容器初始化完成*******");
@@ -164,7 +160,7 @@ public class App
     }
 
     @Test
-    public void testConfigProperties(){
+    public void testConfigProperties() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 
 
@@ -174,21 +170,21 @@ public class App
         //properties 会加载到环境变量中，可以直接从环境变量中去bird.color的值
         Environment environment = applicationContext.getEnvironment();
         String property = environment.getProperty("bird.color");
-        System.out.println("environment--->"+property);
+        System.out.println("environment--->" + property);
 
         ((AnnotationConfigApplicationContext) applicationContext).close();
     }
 
 
     @Test
-    public void testConfigAutoInjectPriority(){
+    public void testConfigAutoInjectPriority() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigAutoInjectPriority.class);
 
 
         DemoService demoService = applicationContext.getBean(DemoService.class);
         demoService.printDemoDao();
 
-        DemoDao demoDao = (DemoDao)applicationContext.getBean(DemoDao.class);
+        DemoDao demoDao = (DemoDao) applicationContext.getBean(DemoDao.class);
 
         System.out.println(demoDao);
 
@@ -197,20 +193,20 @@ public class App
 
 
     @Test
-    public void testConfigAop(){
+    public void testConfigAop() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigAop.class);
 
 
         Calculator calculator = applicationContext.getBean(Calculator.class);
 
-        System.out.println(calculator.div(1,1));
+        System.out.println(calculator.div(1, 1));
 
         ((AnnotationConfigApplicationContext) applicationContext).close();
     }
 
 
     @Test
-    public void testConfigTransaction(){
+    public void testConfigTransaction() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigTransaction.class);
 
 
@@ -220,6 +216,22 @@ public class App
 
 
         ((AnnotationConfigApplicationContext) applicationContext).close();
+
+    }
+
+    @Test
+    public void testCircularReference() {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
+        ClzA clzA = (ClzA) applicationContext.getBean("clzA");
+        System.out.println(clzA.getClzB());
+
+    }
+
+    @Test
+    public void testConfigCirc() {
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(configCirc.class);
+        BeanB bean = (BeanB) applicationContext.getBean("beanB");
+        System.out.println(bean);
 
     }
 }
