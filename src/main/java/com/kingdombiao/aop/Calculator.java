@@ -1,6 +1,6 @@
 package com.kingdombiao.aop;
 
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * 描述:
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class Calculator {
 
-    @Transactional
+    @Async
     public int div(int i,int j){
         System.out.println("运算执行中........");
         return i/j;

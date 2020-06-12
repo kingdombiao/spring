@@ -8,6 +8,8 @@ import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 import java.util.Map;
@@ -41,9 +43,15 @@ public class OrderService {
     public  List<Map<String, Object>> select(Integer id) {
 
         OrderService orderService = (OrderService) AopContext.currentProxy();
-        for (int i=0;i<5;i++) {
+       /* for (int i=0;i<5;i++) {
             orderService.addOrder();
-        }
+        }*/
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+            @Override
+            public void afterCommit() {
+                System.out.println("测试本身事务提交之后");
+            }
+        });
         List<Map<String, Object>> mapList = orderDao.select(id);
         return mapList;
     }
