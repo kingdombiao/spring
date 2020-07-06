@@ -156,7 +156,6 @@ public class ClassScanner implements ResourceLoaderAware {
                 return true;
             }
         }
-
         return false;
     }
 }
