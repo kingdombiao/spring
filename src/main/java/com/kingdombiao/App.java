@@ -6,6 +6,7 @@ import com.kingdombiao.circularReference.BeanB;
 import com.kingdombiao.circularReference.ClzA;
 import com.kingdombiao.config.*;
 import com.kingdombiao.dao.DemoDao;
+import com.kingdombiao.designMode.StrategyPattern.OrderDto;
 import com.kingdombiao.factoryBean.BiaoFactoryBean;
 import com.kingdombiao.service.DemoService;
 import com.kingdombiao.service.OrderService;
@@ -232,6 +233,13 @@ public class App {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(configCirc.class);
         BeanB bean = (BeanB) applicationContext.getBean("beanB");
         System.out.println(bean);
+    }
 
+    @Test
+    public void testConfigDesignMode(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ConfigDesignMode.class);
+        com.kingdombiao.designMode.StrategyPattern.OrderService orderService = applicationContext.getBean(com.kingdombiao.designMode.StrategyPattern.OrderService.class);
+        String result = orderService.handle(OrderDto.builder().type("1").build());
+        System.out.println(result);
     }
 }
